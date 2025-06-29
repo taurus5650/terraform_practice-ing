@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: terraform_aws_prod
+    restart: unless-stopped
+    environment:
+      - FLASK_DEBUG=false
+      - FLASK_APP=run.py
+    ports:
+      - '5002:5002'
