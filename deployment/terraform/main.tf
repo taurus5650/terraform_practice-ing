@@ -1,61 +1,53 @@
 provider "google" {
-    project = var.project_id
-    region = var.region
-    zone = var.zone
+  project = var.project_id
+  region  = var.region
+  zone    = var.zone
 }
 
 resource "google_compute_network" "vpc_network" {
-    name = "docker-vpc"
+  name = "docker-vpc"
 }
 
-resource "google_compute_firewall" "default" {
-    name = "docker-allow"
-    network = google_compute_network.vpc_network.name
+resource "google_compute_firewall" "docker_firewall" {
+  name    = "docker-allow"
+  network = google_compute_network.vpc_network.name
 
-    dynamic "allow" {
-        for_each = var.open_ports
-        content {
-            protocol = "tcp"
-            ports = [allow.value]
-        }
-    }
+  allow {
+    protocol = "tcp"
+    ports    = var.open_ports
+  }
 
-
-    source_ranges = ["0.0.0.0/0"]
+  source_ranges = ["0.0.0.0/0"]
 }
 
 resource "google_compute_instance" "docker_vm" {
-    name = "docker-vm"
-    machine_type = var.machine_type
-    zone = var.zone
+  name         = "docker-vm"
+  machine_type = var.machine_type
 
-    boot_disk {
-        initialize_params {
-            image = var.image
-        }
+  boot_disk {
+    initialize_params {
+      image = var.image
     }
+  }
 
-    network_interface {
-        network = google_compute_network.vpc_network.name
-        access_config {}
-    }
+  network_interface {
+    network = google_compute_network.vpc_network.name
+    access_config {}
+  }
 
-    metadata_startup_script = <<-EOT
+  metadata_startup_script = <<-EOT
     #!/bin/bash
-    apt update
-    apt install - y docker.io docker - compose git make
-    usermod - aG docker ${var.ssh_user}
-    cd / home /${var.ssh_user}
+    apt-get update
+    apt-get install -y docker.io docker-compose git make
+    usermod -aG docker debian
+    cd /home/debian
     git clone ${var.repo_url} app
     cd app
     make up
-    EOT
+  EOT
 
-    tags = ["docker-vm"]
-
-    service_account {
-        email = var.service_account_email
-        scopes = ["https://www.googleapis.com/auth/cloud-platform"]
-    }
-
+  service_account {
+    email  = var.service_account_email
+    scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+  }
 }
