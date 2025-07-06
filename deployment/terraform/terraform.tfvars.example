@@ -1,0 +1,9 @@
+# Copy this file to terraform.tfvars and fill in your project ID
+
+project_id = "your-gcp-project-id"
+# You can override other variables if needed
+# region    = "asia-east1"
+# zone      = "asia-east1-b"
+# vm_name   = "docker-vm"
+# machine_type = "e2-medium"
+# image     = "debian-cloud/debian-11"

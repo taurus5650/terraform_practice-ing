@@ -1,4 +1,28 @@
+# Terraform
+deployment/terraform/terraform.tfstate
+deployment/terraform/terraform.tfstate.*
+deployment/terraform/.terraform/
+deployment/terraform/terraform.tfvars
+
+# GCP key
 key.json
+
+# Python venv
+service/backend/.venv/
+
+# Node modules
+service/frontend/node_modules/
+
+# Environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -135,17 +159,6 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
-
-# Environments
-.env
-.envrc
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-.idea/
 
 
 # Spyder project settings

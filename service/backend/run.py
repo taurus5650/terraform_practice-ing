@@ -1,13 +1,18 @@
 import os
 
-from flask import Flask
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 
 
 @app.route('/')
+def index():
+    return "<h1> Index </h1>"
+
+
+@app.route('/api/hello_world')
 def hello_world():
-    return "<h1> AWS & Terraform Practice</h1>"
+    return jsonify({"message": "Terraform Practice 2025"}), 200
 
 
 if __name__ == "__main__":

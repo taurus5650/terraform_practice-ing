@@ -1,0 +1,10 @@
+#!/bin/bash
+apt-get update
+apt-get install -y docker.io
+gcloud auth configure-docker
+docker pull gcr.io/${project_id}/backend:latest
+docker run -d -p 5002:5002 gcr.io/${project_id}/backend:latest
+
+# 如果未來有 frontend:
+# docker pull gcr.io/${project_id}/frontend:latest
+# docker run -d -p 80:80 gcr.io/${project_id}/frontend:latest

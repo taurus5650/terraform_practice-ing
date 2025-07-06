@@ -1,0 +1,32 @@
+services:
+  backend:
+    build:
+      context: ../../
+      dockerfile: deployment/docker/Dockerfile-backend
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1
+    working_dir: /app
+    command: python3 run.py
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ../../
+      dockerfile: deployment/docker/Dockerfile-frontend-dev
+    ports:
+      - "5173:5173"
+    working_dir: /app/service/frontend
+    volumes:
+      - ../../service/frontend:/app/service/frontend
+    command: npm run dev -- --host 0.0.0.0
+    environment:
+      - VITE_BACKEND_HOST=backend:5002
+    networks:
+      - app-network
+
+networks:
+  app-network:
