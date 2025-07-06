@@ -37,8 +37,8 @@ resource "google_compute_instance" "docker_vm" {
 
   metadata_startup_script = <<-EOT
     #!/bin/bash
-    apt-get update
-    apt-get install -y docker.io docker-compose git make
+    apt update
+    apt install -y docker.io docker-compose git make
     usermod -aG docker debian
     cd /home/debian
     git clone ${var.repo_url} app

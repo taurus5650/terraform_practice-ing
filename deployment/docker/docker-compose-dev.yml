@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   backend:
     build:
@@ -18,10 +16,15 @@ services:
   frontend:
     build:
       context: ../../
-      dockerfile: deployment/docker/Dockerfile-frontend
+      dockerfile: deployment/docker/Dockerfile-frontend-dev
     ports:
-      - "5003:80"
-    command: nginx -g 'daemon off;'
+      - "5173:5173"
+    working_dir: /app/service/frontend
+    volumes:
+      - ../../service/frontend:/app/service/frontend
+    command: npm run dev -- --host 0.0.0.0
+    environment:
+      - VITE_BACKEND_HOST=backend:5002
     networks:
       - app-network
 

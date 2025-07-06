@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="container">
-    <h1> Terraform Practice </h1>
+    <h1> Terraform Practice 2025 </h1>
 
     <button @click="getHelloWorld">Fetch API</button>
 

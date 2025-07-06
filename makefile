@@ -1,19 +1,39 @@
-.PHONY: terraform-init terraform-apply ssh-deploy build up down
+DEPLOYMENT_PATH := ./deployment/docker/
+DOCKER_COMPOSE_FILE_PROD := $(DEPLOYMENT_PATH)docker-compose-prod.yml
+DOCKER_COMPOSE_FILE_DEV := $(DEPLOYMENT_PATH)docker-compose-dev.yml
 
-terraform-init:
-	cd deployment/terraform && terraform init
+.DEFAULT_GOAL := help
 
-terraform-apply:
-	cd deployment/terraform && terraform apply -auto-approve
+.PHONY: help
+help:
+	@echo "Available commands:"
+	@echo "  make run-dev-docker"
+	@echo "  make run-prod-docker"
 
-ssh-deploy:
-	gcloud compute ssh docker-vm --zone=asia-east1-b --command="cd app && make up"
 
-build:
-	docker-compose -f deployment/docker/docker-compose-prod.yml build
+.PHONY: run-dev-docker
+run-dev-docker:
+	@echo "========== 1. Stopping and cleaning up =========="
+	docker compose -f $(DOCKER_COMPOSE_FILE_DEV) down
+	docker system prune -a --volumes -f
+	@echo "========== 2. Building =========="
+	docker compose -f $(DOCKER_COMPOSE_FILE_DEV) build
+	@echo "========== 3. Starting =========="
+	docker compose -f $(DOCKER_COMPOSE_FILE_DEV) up -d
+	@echo "========== 4. Status =========="
+	docker compose -f $(DOCKER_COMPOSE_FILE_DEV) ps
+	@echo "========== Docker Compose Process Complete =========="
 
-up:
-	docker-compose -f deployment/docker/docker-compose-prod.yml up -d --build
 
-down:
-	docker-compose -f deployment/docker/docker-compose-prod.yml down
+.PHONY: run-prod-docker
+run-prod-docker:
+	@echo "========== 1. Stopping and cleaning up =========="
+	docker compose -f $(DOCKER_COMPOSE_FILE_PROD) down
+	docker system prune -a --volumes -f
+	@echo "========== 2. Building =========="
+	docker compose -f $(DOCKER_COMPOSE_FILE_PROD) build
+	@echo "========== 3. Starting =========="
+	docker compose -f $(DOCKER_COMPOSE_FILE_PROD) up -d
+	@echo "========== 4. Status =========="
+	docker compose -f $(DOCKER_COMPOSE_FILE_PROD) ps
+	@echo "========== Docker Compose Process Complete =========="
