@@ -1,8 +1,12 @@
 FROM python:3.13-slim
 
+ENV REGION=asia-east1
+ENV ZONE=asia-east1-b
+
 RUN apt update && \
-    apt-get install -y --no-install-recommends \
+    apt install -y --no-install-recommends \
         make \
+        git \
         && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
