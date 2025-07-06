@@ -18,6 +18,10 @@ help:
 	@echo "  make build-prod-backend"
 	@echo "  make build-prod-frontend"
 	@echo "  make build-prod-all"
+	@echo "  make terraform-init"
+	@echo "  make terraform-apply"
+	@echo "  make terraform-deploy
+
 
 
 .PHONY: run-dev-docker
@@ -64,3 +68,14 @@ build-prod-frontend:
 
 .PHONY: build-prod-all
 build-prod-all: build-prod-backend build-prod-frontend
+
+.PHONY: terraform-init
+terraform-init:
+	cd deployment/terraform && terraform init
+
+.PHONY: terraform-apply
+terraform-apply:
+	cd deployment/terraform && terraform apply -auto-approve
+
+.PHONY: terraform-deploy
+terraform-deploy: build-prod-all terraform-init terraform-apply
