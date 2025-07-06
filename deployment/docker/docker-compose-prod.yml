@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ../../
+      dockerfile: deployment/docker/Dockerfile-backend
+    ports:
+      - "5002:5002"
+    environment:
+      - FLASK_ENV=production
+    working_dir: /app
+    command: python3 run.py
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ../../
+      dockerfile: deployment/docker/Dockerfile-frontend
+    ports:
+      - "5003:5003"
+    networks:
+      - app-network
+
+networks:
+  app-network:
