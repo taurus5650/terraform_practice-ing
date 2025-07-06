@@ -1,4 +1,21 @@
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
+
+# GCP key
 key.json
+
+# Environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.idea/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -135,17 +152,6 @@ celerybeat.pid
 
 # SageMath parsed files
 *.sage.py
-
-# Environments
-.env
-.envrc
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-.idea/
 
 
 # Spyder project settings
