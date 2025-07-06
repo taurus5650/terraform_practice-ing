@@ -1,11 +1,34 @@
-variable "project_id" {}
-variable "region" {default = "asia-east1"}
-variable "zone" {default = "asia-east1-b"}
-variable "machine_type" {default = "e2-micro"}
-variable "image" {default = "debian-cloud/debian-11"}
-variable "repo_url" {}
-variable "service_account_email" {}
-variable "open_ports" {
-    type = list(string)
-    default = ["22", "5002", "5003"]
+variable "project_id" {
+  description = "Your GCP project ID"
+  type        = string
+}
+
+variable "region" {
+  description = "GCP region"
+  type        = string
+  default     = "asia-east1"
+}
+
+variable "zone" {
+  description = "GCP zone"
+  type        = string
+  default     = "asia-east1-b"
+}
+
+variable "vm_name" {
+  description = "VM name"
+  type        = string
+  default     = "docker-vm"
+}
+
+variable "machine_type" {
+  description = "Machine type"
+  type        = string
+  default     = "e2-medium"
+}
+
+variable "image" {
+  description = "OS image"
+  type        = string
+  default     = "debian-cloud/debian-11"
 }
